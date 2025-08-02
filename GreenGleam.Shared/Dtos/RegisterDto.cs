@@ -8,6 +8,6 @@
         public string Email { get; set; }
         public string MobileNumber { get; set; }
         [Required]
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
     }
 }

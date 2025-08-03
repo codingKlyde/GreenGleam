@@ -62,19 +62,23 @@
             }
         }
 
-        public async Task<AddressDto[]> GetOrdersAsync(int startIndex, int pageSize, int userId) =>
-             await _dataContext.UserAddresses
+        public async Task<OrderDto[]> GetOrdersAsync(int startIndex, int pageSize, int userId) =>
+             await _dataContext.Orders
                 .AsNoTracking()
                 .Where(a => a.UserId == userId)
                 .OrderByDescending(order => order.Id)
                 .Skip(startIndex)
                 .Take(pageSize)
-                .Select(select => new AddressDto
+                .Select(select => new OrderDto
                 {
                     Id = select.Id,
-                    Name = select.Name,
+                    AddressName = select.AddressName,
                     Address = select.Address,
-                    isDefault = select.IsDefault
+                    Date = select.Date,
+                    Notes = select.Notes,
+                    TotalAmount = select.TotalAmount,
+                    TotalItems = select.TotalItems,
+                    Status = select.Status,
                 })
                 .ToArrayAsync();
 

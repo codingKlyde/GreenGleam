@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace GreenGleam
+﻿namespace GreenGleam
 {
     public static class MauiProgram
     {

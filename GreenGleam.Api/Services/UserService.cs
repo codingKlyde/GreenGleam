@@ -2,10 +2,12 @@
 {
     public class UserService
     {
+        private readonly IPasswordHasher<User> _passwordHasher;
         private readonly DataContext _dataContext;
 
-        public UserService(DataContext dataContext)
+        public UserService(IPasswordHasher<User> passwordHasher, DataContext dataContext)
         {
+            _passwordHasher = passwordHasher;
             _dataContext = dataContext;
         }
 
@@ -68,5 +70,30 @@
                 isDefault = a.IsDefault
             })
             .ToArrayAsync();
+
+        public async Task<ApiResultDto> ChangePasswordAsync(ChangePasswordDto changePasswordDto, int userId)
+        {
+            try
+            {
+                var user = await _dataContext.Users.FindAsync(userId);
+                if (user is null)
+                    return ApiResultDto.Fail("User does not exist");
+
+                var verification = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, changePasswordDto.CurrentPassword);
+                if (verification != PasswordVerificationResult.Success)
+                    return ApiResultDto.Fail("Incorrect password");
+
+                user.PasswordHash = _passwordHasher.HashPassword(user, changePasswordDto.NewPassword);
+
+                _dataContext.Users.Update(user);
+                await _dataContext.SaveChangesAsync();
+
+                return ApiResultDto.Success();
+            }
+            catch (Exception ex) 
+            {
+                return ApiResultDto.Fail(ex.Message);
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public string ProducImage { get; set; }
+        [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal ProductPrice { get; set; }
 
         public int OrderId { get; set; }

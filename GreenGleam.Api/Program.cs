@@ -1,5 +1,3 @@
-using GreenGleam.Api.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -11,6 +9,15 @@ builder.Services.AddDbContext<DataContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); 
     options.UseSqlServer(connectionString);
 });
+
+builder.Services
+    .AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
+
+builder.Services
+    .AddTransient<AuthService>()
+    .AddTransient<OrderService>()
+    .AddTransient<ProductService>()
+    .AddTransient<UserService>();
 
 var app = builder.Build();
 

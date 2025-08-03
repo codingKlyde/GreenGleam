@@ -1,4 +1,7 @@
-﻿namespace GreenGleam
+﻿using GreenGleam.Apis;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace GreenGleam
 {
     public static class MauiProgram
     {
@@ -19,7 +22,31 @@
     		builder.Logging.AddDebug();
 #endif
 
+            ConfigureRefit(builder.Services);
+
             return builder.Build();
+        }
+
+        private static void ConfigureRefit(IServiceCollection services)
+        {
+            const string baseApiUrl = "https://tp0q42bc-7102.asse.devtunnels.ms";
+
+            static void SetHttpclient(HttpClient httpClient) => httpClient.BaseAddress = new Uri(baseApiUrl);
+
+            static RefitSettings GetRefitSettings(IServiceProvider serviceProvider)
+            {
+                var settings = new RefitSettings();
+                settings.AuthorizationHeaderValueGetter = (_, __) => Task.FromResult("TOKEN");
+                return settings;
+            }
+
+            services.AddRefitClient<IAuthApi>().ConfigureHttpClient(SetHttpclient);
+            services.AddRefitClient<IProductApi>().ConfigureHttpClient(SetHttpclient);
+            services.AddRefitClient<IOrderApi>(GetRefitSettings).ConfigureHttpClient(SetHttpclient);
+            services.AddRefitClient<IUserApi>(GetRefitSettings).ConfigureHttpClient(SetHttpclient);
+
+
+
         }
     }
 }

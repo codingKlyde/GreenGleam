@@ -4,10 +4,12 @@
     {
         [Key]
         public int Id { get; set; }
+        public string AddressName { get; set; }
         public string Address { get; set; }
         public DateTime Date { get; set; }
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal TotalAmount { get; set; }
+        public int TotalItems { get; set; }
         [Required, MaxLength(500)]
         public string? Notes { get; set; }
         [Required, MaxLength(15)]

@@ -10,6 +10,6 @@
         Task<OrderDto[]> GetOrdersAsync(int startIndex, int pageSize, int userId);
 
         [Get("/api/orders/user/{userId}/orders/{orderId}/items")]
-        Task<ApiResultDto<OrderItemDto[]>> GetOrderItemsAsync(int orderId, int userId;
+        Task<ApiResultDto<OrderItemDto[]>> GetOrderItemsAsync(int orderId, int userId);
     }
 }

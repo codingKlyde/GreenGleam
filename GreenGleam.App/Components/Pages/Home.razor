@@ -1,0 +1,22 @@
+﻿@page "/"
+@inject IProductApi productApi
+
+<SectionContent SectionName="pageTitle">
+    Home
+</SectionContent>
+
+<ul class="text-2xl">
+    @foreach (var product in _products)
+    {
+        <li>@product.Name</li>
+    }
+</ul>
+
+@code {
+    ProductDto[] _products = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _products = await productApi.GetProductsAsync();
+    }
+}

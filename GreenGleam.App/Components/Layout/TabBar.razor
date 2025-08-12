@@ -1,0 +1,54 @@
+﻿@implements IDisposable
+@inject NavigationManager navigationManager
+
+<div class="sticky bottom-0 z-10 flex h-16 items-center justify-around bg-white shadow-2xl">
+    @foreach (var menu in _menuItems)
+    {
+        var containerClass = "text-blue-300";
+        if (menu.Url == _selectedPageUrl)
+            containerClass = "text-blue-500";
+
+        <div @onclick="menu.OnTap" class="@containerClass flex flex-col items-center justify-center p-2">
+            <i class="@menu.Icon fa-solid"></i>
+            @* <span>@menu.Label</span> *@
+        </div>
+    }
+</div>
+
+@code {
+    private MenuItem[] _menuItems = [];
+    private string _selectedPageUrl = PageRoute.Home;
+
+    private record struct MenuItem(
+        string Url, 
+        string Label, 
+        string Icon, 
+        Action OnTap);
+    private static class PageRoute
+    {
+        public const string Home = "/";
+        public const string Cart = "/cart";
+        public const string History = "/history";
+        public const string Profile = "/profile";
+    }
+
+    protected override void OnInitialized()
+    {
+        _menuItems = [
+            new(PageRoute.Home, "Home", "fa-house", () => navigationManager.NavigateTo(PageRoute.Home)),
+            new(PageRoute.Cart, "Cart", "fa-cart-shopping", () => navigationManager.NavigateTo(PageRoute.Cart)),
+            new(PageRoute.History, "History", "fa-clock-rotate-left", () => navigationManager.NavigateTo(PageRoute.History)),
+            new(PageRoute.Profile, "Profile", "fa-user", () => navigationManager.NavigateTo(PageRoute.Profile)),
+        ];
+
+        navigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _selectedPageUrl = e.Location.Replace(navigationManager.BaseUri, "/");
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose() => navigationManager.LocationChanged -= OnLocationChanged;
+}

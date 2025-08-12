@@ -4,6 +4,7 @@ using GreenGleam.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenGleam.Api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250812145110_ImageFix2")]
+    partial class ImageFix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,7 +155,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 1,
                             Description = "Sweet and tart blueberries packed with antioxidants.",
-                            Image = "image/product/blueberry.png",
+                            Image = "blueberry.png",
                             Name = "Blueberry",
                             Price = 250.00m,
                             Unit = "kg"
@@ -161,7 +164,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 2,
                             Description = "Crunchy carrots full of vitamins and nutrients.",
-                            Image = "image/product/carrot.png",
+                            Image = "image/carrot.png",
                             Name = "Carrot",
                             Price = 50.00m,
                             Unit = "kg"
@@ -170,7 +173,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 3,
                             Description = "Sweet golden corn on the cob, ready to boil or grill.",
-                            Image = "image/product/corn.png",
+                            Image = "image/corn.png",
                             Name = "Corn",
                             Price = 20.00m,
                             Unit = "piece"
@@ -179,7 +182,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 4,
                             Description = "Fresh dill herb for seasoning and garnishing.",
-                            Image = "image/product/dill.png",
+                            Image = "image/dill.png",
                             Name = "Dill",
                             Price = 25.00m,
                             Unit = "bunch"
@@ -188,7 +191,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 5,
                             Description = "Fresh eggplant perfect for grilling or stir-frying.",
-                            Image = "image/product/eggplant.png",
+                            Image = "eggplant.png",
                             Name = "Eggplant",
                             Price = 40.00m,
                             Unit = "kg"
@@ -197,7 +200,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 6,
                             Description = "Aromatic garlic bulbs, essential for cooking.",
-                            Image = "image/product/garlic.png",
+                            Image = "garlic.png",
                             Name = "Garlic",
                             Price = 80.00m,
                             Unit = "kg"
@@ -206,7 +209,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 7,
                             Description = "Sweet seedless grapes, perfect for snacking.",
-                            Image = "image/product/grapes.png",
+                            Image = "grapes.png",
                             Name = "Grapes",
                             Price = 20.50m,
                             Unit = "kg"
@@ -215,7 +218,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 8,
                             Description = "Fresh leeks with mild onion-like flavor.",
-                            Image = "image/product/leek.png",
+                            Image = "leek.png",
                             Name = "Leek",
                             Price = 70.00m,
                             Unit = "bunch"
@@ -224,7 +227,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 9,
                             Description = "Crisp green lettuce, ideal for salads and sandwiches.",
-                            Image = "image/product/lettuce.png",
+                            Image = "lettuce.png",
                             Name = "Lettuce",
                             Price = 10.20m,
                             Unit = "head"
@@ -233,7 +236,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 10,
                             Description = "Fresh, tangy lime perfect for drinks and cooking.",
-                            Image = "image/product/lime.png",
+                            Image = "lime.png",
                             Name = "Lime",
                             Price = 5.50m,
                             Unit = "piece"
@@ -242,7 +245,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 11,
                             Description = "Sweet and juicy melon, perfect for desserts and snacks.",
-                            Image = "image/product/melon.png",
+                            Image = "melon.png",
                             Name = "Melon",
                             Price = 60.00m,
                             Unit = "kg"
@@ -251,7 +254,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 12,
                             Description = "Savory olives great for salads, pizzas, or snacking.",
-                            Image = "image/product/olives.png",
+                            Image = "olives.png",
                             Name = "Olives",
                             Price = 200.00m,
                             Unit = "kg"
@@ -260,7 +263,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 13,
                             Description = "Citrusy, juicy oranges full of vitamin C.",
-                            Image = "image/product/orange.png",
+                            Image = "orange.png",
                             Name = "Orange",
                             Price = 120.00m,
                             Unit = "dozen"
@@ -269,7 +272,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 14,
                             Description = "Sweet green peas, ideal for stir-fries and soups.",
-                            Image = "image/product/peas.png",
+                            Image = "peas.png",
                             Name = "Peas",
                             Price = 150.00m,
                             Unit = "kg"
@@ -278,7 +281,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 15,
                             Description = "Juicy ripe pears, naturally sweet and refreshing.",
-                            Image = "image/product/pear.png",
+                            Image = "pear.png",
                             Name = "Pear",
                             Price = 10.00m,
                             Unit = "piece"
@@ -287,7 +290,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 16,
                             Description = "Tropical pineapple with sweet and tangy flavor.",
-                            Image = "image/product/pineapple.png",
+                            Image = "pineapple.png",
                             Name = "Pineapple",
                             Price = 80.00m,
                             Unit = "piece"
@@ -296,7 +299,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 17,
                             Description = "Crisp radishes with a peppery flavor.",
-                            Image = "image/product/radish.png",
+                            Image = "radish.png",
                             Name = "Radish",
                             Price = 30.00m,
                             Unit = "bunch"
@@ -305,7 +308,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 18,
                             Description = "Exotic fruit with juicy, sweet-sour flesh.",
-                            Image = "image/product/rambutan.png",
+                            Image = "rambutan.png",
                             Name = "Rambutan",
                             Price = 120.00m,
                             Unit = "kg"
@@ -314,7 +317,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 19,
                             Description = "Fresh spinach leaves packed with nutrients.",
-                            Image = "image/product/spinach.png",
+                            Image = "spinach.png",
                             Name = "Spinach",
                             Price = 10.80m,
                             Unit = "bunch"
@@ -323,7 +326,7 @@ namespace GreenGleam.Api.Data.Migrations
                         {
                             Id = 20,
                             Description = "Mild, slightly sweet turnip great for stews.",
-                            Image = "image/product/turnip.png",
+                            Image = "turnip.png",
                             Name = "Turnip",
                             Price = 35.00m,
                             Unit = "kg"

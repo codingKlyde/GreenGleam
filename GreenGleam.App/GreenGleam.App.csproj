@@ -51,7 +51,6 @@
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
@@ -70,6 +69,83 @@
     </ItemGroup>
 
     <ItemGroup>
+      <MauiImage Include="wwwroot\image\product\apple.png" />
+      <MauiImage Include="wwwroot\image\product\apricot.png" />
+      <MauiImage Include="wwwroot\image\product\arugula.png" />
+      <MauiImage Include="wwwroot\image\product\asparagus.png" />
+      <MauiImage Include="wwwroot\image\product\avocado.png" />
+      <MauiImage Include="wwwroot\image\product\banana.png" />
+      <MauiImage Include="wwwroot\image\product\basil.png" />
+      <MauiImage Include="wwwroot\image\product\beet.png" />
+      <MauiImage Include="wwwroot\image\product\bell_pepper.png" />
+      <MauiImage Include="wwwroot\image\product\berries.png" />
+      <MauiImage Include="wwwroot\image\product\blueberry.png" />
+      <MauiImage Include="wwwroot\image\product\broccoli.png" />
+      <MauiImage Include="wwwroot\image\product\brussels_sprouts.png" />
+      <MauiImage Include="wwwroot\image\product\cabbage.png" />
+      <MauiImage Include="wwwroot\image\product\caper.png" />
+      <MauiImage Include="wwwroot\image\product\carambola.png" />
+      <MauiImage Include="wwwroot\image\product\carrot.png" />
+      <MauiImage Include="wwwroot\image\product\cauliflower.png" />
+      <MauiImage Include="wwwroot\image\product\celery.png" />
+      <MauiImage Include="wwwroot\image\product\cherry.png" />
+      <MauiImage Include="wwwroot\image\product\chestnut.png" />
+      <MauiImage Include="wwwroot\image\product\chili_pepper.png" />
+      <MauiImage Include="wwwroot\image\product\coconut.png" />
+      <MauiImage Include="wwwroot\image\product\corn.png" />
+      <MauiImage Include="wwwroot\image\product\cucumber.png" />
+      <MauiImage Include="wwwroot\image\product\date.png" />
+      <MauiImage Include="wwwroot\image\product\dill.png" />
+      <MauiImage Include="wwwroot\image\product\eggplant.png" />
+      <MauiImage Include="wwwroot\image\product\fig.png" />
+      <MauiImage Include="wwwroot\image\product\garlic.png" />
+      <MauiImage Include="wwwroot\image\product\ginger.png" />
+      <MauiImage Include="wwwroot\image\product\goji.png" />
+      <MauiImage Include="wwwroot\image\product\gooseberry.png" />
+      <MauiImage Include="wwwroot\image\product\grapefruit.png" />
+      <MauiImage Include="wwwroot\image\product\grapes.png" />
+      <MauiImage Include="wwwroot\image\product\guava.png" />
+      <MauiImage Include="wwwroot\image\product\horseradish.png" />
+      <MauiImage Include="wwwroot\image\product\kiwi.png" />
+      <MauiImage Include="wwwroot\image\product\kohlrabi.png" />
+      <MauiImage Include="wwwroot\image\product\kumquat.png" />
+      <MauiImage Include="wwwroot\image\product\leek.png" />
+      <MauiImage Include="wwwroot\image\product\lemon.png" />
+      <MauiImage Include="wwwroot\image\product\lettuce.png" />
+      <MauiImage Include="wwwroot\image\product\lime.png" />
+      <MauiImage Include="wwwroot\image\product\mango.png" />
+      <MauiImage Include="wwwroot\image\product\mangosteen.png" />
+      <MauiImage Include="wwwroot\image\product\melon.png" />
+      <MauiImage Include="wwwroot\image\product\olives.png" />
+      <MauiImage Include="wwwroot\image\product\orange.png" />
+      <MauiImage Include="wwwroot\image\product\papaya.png" />
+      <MauiImage Include="wwwroot\image\product\parsley.png" />
+      <MauiImage Include="wwwroot\image\product\passion_fruit.png" />
+      <MauiImage Include="wwwroot\image\product\peach.png" />
+      <MauiImage Include="wwwroot\image\product\pear.png" />
+      <MauiImage Include="wwwroot\image\product\peas.png" />
+      <MauiImage Include="wwwroot\image\product\persimmon.png" />
+      <MauiImage Include="wwwroot\image\product\pineapple.png" />
+      <MauiImage Include="wwwroot\image\product\plum.png" />
+      <MauiImage Include="wwwroot\image\product\pomegranate.png" />
+      <MauiImage Include="wwwroot\image\product\potato.png" />
+      <MauiImage Include="wwwroot\image\product\pumpkin.png" />
+      <MauiImage Include="wwwroot\image\product\quince.png" />
+      <MauiImage Include="wwwroot\image\product\radish.png" />
+      <MauiImage Include="wwwroot\image\product\rambutan.png" />
+      <MauiImage Include="wwwroot\image\product\raspberry.png" />
+      <MauiImage Include="wwwroot\image\product\rhubarb.png" />
+      <MauiImage Include="wwwroot\image\product\spinach.png" />
+      <MauiImage Include="wwwroot\image\product\squash.png" />
+      <MauiImage Include="wwwroot\image\product\strawberry.png" />
+      <MauiImage Include="wwwroot\image\product\sweet_potato.png" />
+      <MauiImage Include="wwwroot\image\product\tomato.png" />
+      <MauiImage Include="wwwroot\image\product\turnip.png" />
+      <MauiImage Include="wwwroot\image\product\watermelon.png" />
+      <MauiImage Include="wwwroot\image\product\zucchini.png" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
@@ -78,6 +154,18 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GreenGleam.Shared\GreenGleam.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\image\product\bell_pepper.png" />
+      <None Include="wwwroot\image\product\brussels_sprouts.png" />
+      <None Include="wwwroot\image\product\chili_pepper.png" />
+      <None Include="wwwroot\image\product\passion_fruit.png" />
+      <None Include="wwwroot\image\product\sweet_potato.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Images\" />
     </ItemGroup>
 
 </Project>

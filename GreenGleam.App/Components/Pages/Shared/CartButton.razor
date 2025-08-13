@@ -1,4 +1,6 @@
-﻿@if (Product.Quantity == 0)
+﻿@inject CartService CartService
+
+@if (Product.Quantity == 0)
 {
      <button @onclick="Increment" class="mt-2 rounded-lg bg-blue-500 py-2 text-xs text-white transition-colors duration-150 active:bg-blue-600">
         Add to Cart
@@ -28,8 +30,15 @@ else
     private void Decrement()
     {
         if (Product.Quantity > 0)
+        {
             Product.Quantity--;
+            CartService.RemoveFromCart(Product);
+        }
     }
 
-    private void Increment() => Product.Quantity++;
+    private void Increment()
+    {
+        Product.Quantity++;
+        CartService.AddToCart(Product);
+    }
 }

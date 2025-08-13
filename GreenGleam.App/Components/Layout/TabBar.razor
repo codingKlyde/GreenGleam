@@ -8,12 +8,17 @@
         if (menu.Url == _selectedPageUrl)
             containerClass = "text-blue-500";
 
-        <div @onclick="menu.OnTap" class="@containerClass flex flex-col items-center justify-center p-2">
+        <div @onclick="menu.OnTap" class="@containerClass relative flex flex-col items-center justify-center p-2">
             <i class="@menu.Icon fa-solid"></i>
-            @* <span>@menu.Label</span> *@
+
+            @if (menu.Url == PageRoute.Cart)
+            {
+                <CartBadge />
+            }
         </div>
     }
 </div>
+
 
 @code {
     private MenuItem[] _menuItems = [];

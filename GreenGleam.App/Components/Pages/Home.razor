@@ -1,16 +1,35 @@
 ﻿@page "/"
 @inject IProductApi productApi
 
+
 <SectionContent SectionName="pageTitle">
     Home
 </SectionContent>
 
-<ul class="text-2xl">
-    @foreach (var product in _products)
-    {
-        <li>@product.Name</li>
-    }
-</ul>
+<div class="container py-5">
+    <div class="row-1">
+        <div class="grid grid-cols-2 gap-4 p-4">
+            @foreach (var p in _products)
+            {
+                <div class="flex flex-col overflow-hidden rounded-xl bg-white p-3 shadow-md transition-transform duration-150 active:scale-95">
+                    <div class="aspect-square">
+                        <img class="h-full w-full rounded-lg object-cover" src="@p.Image" alt="@p.Name" />
+                    </div>
+
+                    <div class="mt-2 flex flex-grow flex-col gap-1">
+                        <span class="truncate text-sm font-semibold text-gray-800">@p.Name</span>
+                        <span class="text-xs font-medium text-blue-600">
+                            @p.Price.ToString("C") <span class="text-gray-500">/ @p.Unit</span>
+                        </span>
+                    </div>
+
+                   <CartButton Product="p" />
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
 
 @code {
     ProductDto[] _products = [];

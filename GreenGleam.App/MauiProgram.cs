@@ -19,6 +19,8 @@
             builder.Logging.AddDebug();
 #endif
 
+            builder.Services.AddSingleton<CartService>();
+
 
             ConfigureRefit(builder.Services);
 

@@ -1,4 +1,6 @@
-﻿namespace GreenGleam.Shared.Dtos
+﻿using System.Text.Json.Serialization;
+
+namespace GreenGleam.Shared.Dtos
 {
     public class ProductDto
     {
@@ -8,5 +10,7 @@
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string Unit { get; set; }
+        [JsonIgnore] // UI only
+        public int Quantity { get; set; }   
     }
 }

@@ -6,7 +6,26 @@
     Home
 </SectionContent>
 
-<div class="container py-5">
+
+<div class="m-4 rounded-b-2xl shadow-lg">
+    <div class="flex items-center rounded-full border border-blue-500 bg-white px-4 py-2 shadow">
+        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        <input type="text" placeholder="Search products..."  class="ml-2 flex-grow bg-transparent text-sm text-gray-700 focus:outline-none" />
+    </div>
+</div>
+
+<div class="relative m-4 overflow-hidden rounded-xl shadow-lg">
+    <img src="image/background/bg2.png" alt="" class="h-40 w-full object-cover" />
+
+    <div class="absolute inset-0 bg-black opacity-30"></div>
+
+    <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+        <h2 class="text-lg font-bold">Big Summer Sale</h2>
+        <p class="text-xs">Up to 50% off selected items</p>
+    </div>
+</div>
+
+<div class="container">
     <div class="row-1">
         <div class="grid grid-cols-2 gap-4 p-4">
             @foreach (var p in _products)
@@ -23,19 +42,22 @@
                         </span>
                     </div>
 
-                   <CartButton Product="p" />
+                   <div class="mt-2 flex items-center gap-2">
+                        <div class="flex-grow">
+                            <CartButton Product="p" />
+                        </div>
+                        <button class="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-blue-500 text-blue-500 transition-transform duration-150 active:scale-90">
+                            <i class="fa-solid fa-info"></i>
+                        </button>
+                   </div>
                 </div>
             }
         </div>
-
     </div>
 </div>
 
 @code {
     ProductDto[] _products = [];
 
-    protected override async Task OnInitializedAsync()
-    {
-        _products = await productApi.GetProductsAsync();
-    }
+    protected override async Task OnInitializedAsync() => _products = await productApi.GetProductsAsync();
 }

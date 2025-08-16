@@ -4,6 +4,7 @@
     {
         public List<CartModel> CartItems { get; private set; } = [];
         public int Count { get; private set; }
+        public decimal TotalAmount => CartItems.Sum(x => x.Total);
         public string CountDisplay => Count < 100 ? $"{Count}" : "99";
 
         public event Action? CartItemCountChanged;

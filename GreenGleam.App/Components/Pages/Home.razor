@@ -1,5 +1,6 @@
-﻿@page "/"
+﻿@inject AppState AppState
 @inject IProductApi productApi
+@page "/"
 
 <SectionContent SectionName="pageTitle">
     Home
@@ -34,7 +35,7 @@
 
                     <div class="mt-2 flex flex-grow flex-col gap-1">
                         <span class="truncate text-sm font-semibold text-gray-800">@p.Name</span>
-                        <span class="text-xs font-medium text-blue-600">
+                        <span class="text-xs font-medium text-blue-500">
                             @p.Price.ToString("C") <span class="text-gray-500">/ @p.Unit</span>
                         </span>
                     </div>
@@ -56,5 +57,10 @@
 @code {
     ProductDto[] _products = [];
 
-    protected override async Task OnInitializedAsync() => _products = await productApi.GetProductsAsync();
+    protected override async Task OnInitializedAsync()
+    {
+        AppState.ShowLoader();
+        _products = await productApi.GetProductsAsync();
+        AppState.HideLoader();
+    }
 }

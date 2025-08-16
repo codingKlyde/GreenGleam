@@ -58,20 +58,23 @@
 
             NotifyCartItemCountChanged();
         }
-        public void RemoveCartItem(CartModel cartModel)
+        public async void RemoveCartItem(CartModel cartModel)
         {
             CartItems.Remove(cartModel);
             NotifyCartItemCountChanged();
+            await MauiInterop.ToastAsync("Item removed");
         }
         public async Task ClearCartAsync()
         {
             if (CartItems.Count == 0)
                 return;
 
-            if (await App.Current.Windows[0].Page.DisplayAlert("Confirmation", "Clear cart?", "Yes", "No"))
+            if (await MauiInterop.ConfirmAsync("Are you sure you want to clear your cart?", "Confirmation"))
             {
                 CartItems.Clear();
                 NotifyCartItemCountChanged();
+
+                await MauiInterop.ToastAsync("Cart cleared successfully.");
             }
         }
     }

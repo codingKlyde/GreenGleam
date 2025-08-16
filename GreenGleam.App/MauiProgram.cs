@@ -1,4 +1,6 @@
-﻿namespace GreenGleam.App
+﻿using CommunityToolkit.Maui;
+
+namespace GreenGleam.App
 {
     public static class MauiProgram
     {
@@ -7,6 +9,7 @@
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -19,7 +22,9 @@
             builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddSingleton<CartService>();
+            builder.Services
+                .AddSingleton<AppState>()
+                .AddSingleton<CartService>();
 
 
             ConfigureRefit(builder.Services);

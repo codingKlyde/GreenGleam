@@ -1,0 +1,45 @@
+﻿@layout EmptyLayout
+@page "/login"
+
+
+<div class="flex min-h-screen items-center justify-center bg-gray-50">
+    <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
+        <div class="mb-6 text-center">
+            <i class="fa-solid fa-basket-shopping text-4xl text-blue-500"></i>
+            <h1 class="mt-2 text-xl font-bold text-gray-800">Welcome Back</h1>
+            <p class="text-sm text-gray-500">Login to continue</p>
+        </div>
+
+        <EditForm Model="loginDto">
+            <DataAnnotationsValidator />
+            <div class="space-y-4">
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">Email</label>
+                    <InputText @bind-Value="loginDto.Email" placeholder="Enter email" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                    <ValidationMessage For="() => loginDto.Email" class="text-xs text-red-500" />
+                </div>
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">Password</label>
+                    <InputText @bind-Value="loginDto.Password"
+                               type="password"
+                               placeholder="Enter password"
+                               class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                    <ValidationMessage For="() => loginDto.Password" class="text-xs text-red-500" />
+                </div>
+
+                <button type="submit" class="w-full rounded-lg bg-blue-500 py-2 text-sm font-medium text-white shadow-md transition hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    Login
+                </button>
+            </div>
+        </EditForm>
+
+        <p class="mt-6 text-center text-sm text-gray-600">
+            Don’t have an account?
+            <a href="/register" class="font-medium text-blue-500 hover:underline">Register</a>
+        </p>
+    </div>
+</div>
+
+@code {
+    private LoginDto loginDto = new();
+}

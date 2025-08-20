@@ -62,7 +62,8 @@
         {
             CartItems.Remove(cartModel);
             NotifyCartItemCountChanged();
-            await MauiInterop.ToastAsync("Item removed");
+
+            await Snackbar.Make("Item removed").Show();
         }
         public async Task ClearCartAsync()
         {
@@ -74,7 +75,7 @@
                 CartItems.Clear();
                 NotifyCartItemCountChanged();
 
-                await MauiInterop.ToastAsync("Cart cleared successfully.");
+                await Snackbar.Make("Cart cleared").Show();
             }
         }
     }

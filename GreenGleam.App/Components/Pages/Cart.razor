@@ -1,5 +1,5 @@
 ﻿@inject CartService CartService
-@inject NavigationManager NavigationManager
+@inject NavigationManager navigationManager
 @page "/cart"
 
 <SectionContent SectionName="pageTitle">
@@ -99,6 +99,6 @@
 @code {
     private void Checkout()
     {
-        NavigationManager.NavigateTo("/login");
+        navigationManager.NavigateTo("/login");
     }
 }

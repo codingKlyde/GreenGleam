@@ -1,4 +1,7 @@
 ﻿@layout EmptyLayout
+@inject AppState appState
+@inject IAuthApi authApi
+@inject NavigationManager navigationManager
 @page "/register"
 
 
@@ -10,49 +13,65 @@
             <p class="text-sm text-gray-500">Register to get started</p>
         </div>
 
-        <div class="space-y-4">
-            <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Name</label>
-                <input @bind-value="registerDto.Name" type="text" placeholder="Enter full name"
-                       class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm
-                              focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
-            </div>
+        <EditForm Model="registerDto" OnValidSubmit="RegisterAsync">
+            <DataAnnotationsValidator />
+            <div class="space-y-4">
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">Name</label>
+                    <input @bind-value="registerDto.Name" type="text" placeholder="Enter full name" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                </div>
 
-            <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Email</label>
-                <input @bind-value="registerDto.Email" type="email" placeholder="Enter email"
-                       class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm
-                              focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
-            </div>
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">Email</label>
+                    <input @bind-value="registerDto.Email" type="email" placeholder="Enter email" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                </div>
 
-            <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Mobile Number</label>
-                <input @bind-value="registerDto.MobileNumber" type="tel" placeholder="Enter mobile number"
-                       class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm
-                              focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
-            </div>
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">Mobile Number</label>
+                    <input @bind-value="registerDto.MobileNumber" type="tel" placeholder="Enter mobile number" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                </div>
 
-            <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Password</label>
-                <input @bind-value="registerDto.Password" type="password" placeholder="Enter password"
-                       class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm
-                              focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
-            </div>
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">Password</label>
+                    <input @bind-value="registerDto.Password" type="password" placeholder="Enter password" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                </div>
 
-            <button type="button"
-                    class="w-full rounded-lg bg-blue-500 py-2 text-sm font-medium text-white shadow-md
-                           transition hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none">
-                Register
-            </button>
-        </div>
+                <button type="submit"  class="w-full rounded-lg bg-blue-500 py-2 text-sm font-medium text-white shadow-md transition hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    Register
+                </button>
+            </div>
+        </EditForm>
 
         <p class="mt-6 text-center text-sm text-gray-600">
             Already have an account?
-            <a href="/login" class="font-medium text-blue-500 hover:underline">Login</a>
+            <NavLink href="/login" class="font-medium text-blue-500 hover:underline">Login</NavLink>
         </p>
     </div>
 </div>
 
 @code {
     private RegisterDto registerDto = new();
+
+    private async Task RegisterAsync()
+    {
+        appState.ShowLoader();
+
+        try
+        {
+            var result = await authApi.RegisterAsync(registerDto);
+            if (!result.IsSuccess)
+            {
+                MauiInterop.AlertAsync("Registration Failed", result.Error);
+                return;
+            }
+
+            MauiInterop.AlertAsync("User registrated successfully");
+
+            navigationManager.NavigateTo("/login", replace: true);
+        }
+        finally
+        {
+            appState.HideLoader();
+        }
+    }
 }

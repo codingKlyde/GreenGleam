@@ -1,4 +1,8 @@
 ﻿@layout EmptyLayout
+@inject AppState appState
+@inject AuthService authService
+@inject IAuthApi authApi
+@inject NavigationManager navigationManager
 @page "/login"
 
 
@@ -10,7 +14,7 @@
             <p class="text-sm text-gray-500">Login to continue</p>
         </div>
 
-        <EditForm Model="loginDto">
+        <EditForm Model="loginDto" OnValidSubmit="LoginAsync">
             <DataAnnotationsValidator />
             <div class="space-y-4">
                 <div>
@@ -20,10 +24,7 @@
                 </div>
                 <div>
                     <label class="mb-1 block text-sm font-medium text-gray-700">Password</label>
-                    <InputText @bind-Value="loginDto.Password"
-                               type="password"
-                               placeholder="Enter password"
-                               class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                    <InputText @bind-Value="loginDto.Password" type="password" placeholder="Enter password" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
                     <ValidationMessage For="() => loginDto.Password" class="text-xs text-red-500" />
                 </div>
 
@@ -35,11 +36,35 @@
 
         <p class="mt-6 text-center text-sm text-gray-600">
             Don’t have an account?
-            <a href="/register" class="font-medium text-blue-500 hover:underline">Register</a>
+            <NavLink href="/register" class="font-medium text-blue-500 hover:underline">Register</NavLink>
         </p>
     </div>
 </div>
 
 @code {
     private LoginDto loginDto = new();
+
+    private async Task LoginAsync()
+    {
+        appState.ShowLoader();
+
+        try
+        {
+            var result = await authApi.LoginAsync(loginDto);
+            if (!result.IsSuccess)
+            {
+                MauiInterop.AlertAsync(result.Error, "Login Failed");
+                return;
+            }
+
+            LoggedInUserDto loggedInuser = result.Data;
+            authService.Login(loggedInuser);
+
+            navigationManager.NavigateTo("/", replace: true);
+        }
+        finally
+        {
+             appState.HideLoader();
+        }
+    }
 }

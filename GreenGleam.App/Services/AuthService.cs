@@ -5,6 +5,7 @@
         private const string UserDataKey = "user-data";
         public LoggedInUserDto? LoggedInUser {  get; set; }
         public bool IsLoggedIn { get; private set; }
+        public string? RedirectFromLogin { get; set; } = "/";
 
         public AuthService()
         {

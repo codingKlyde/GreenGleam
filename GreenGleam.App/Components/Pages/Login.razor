@@ -53,14 +53,15 @@
             var result = await authApi.LoginAsync(loginDto);
             if (!result.IsSuccess)
             {
-                MauiInterop.AlertAsync(result.Error, "Login Failed");
+                await MauiInterop.AlertAsync(result.Error, "Login Failed");
                 return;
             }
 
             LoggedInUserDto loggedInuser = result.Data;
             authService.Login(loggedInuser);
 
-            navigationManager.NavigateTo("/", replace: true);
+            navigationManager.NavigateTo(authService.RedirectFromLogin, replace: true);
+            authService.RedirectFromLogin = "/";
         }
         finally
         {

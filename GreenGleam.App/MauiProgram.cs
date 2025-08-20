@@ -9,7 +9,10 @@ namespace GreenGleam.App
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkit(options =>
+                {
+                    options.SetShouldEnableSnackbarOnWindows(true);
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -24,7 +27,9 @@ namespace GreenGleam.App
 
             builder.Services
                 .AddSingleton<AppState>()
-                .AddSingleton<CartService>();
+                .AddSingleton<AuthService>()
+                .AddSingleton<CartService>()
+                .AddSingleton<StorageService>();
 
 
             ConfigureRefit(builder.Services);
@@ -40,8 +45,10 @@ namespace GreenGleam.App
 
             static RefitSettings GetRefitSettings(IServiceProvider serviceProvider)
             {
+                var authService = serviceProvider.GetRequiredService<AuthService>();
+
                 var settings = new RefitSettings();
-                settings.AuthorizationHeaderValueGetter = (_, __) => Task.FromResult("TOKEN");
+                settings.AuthorizationHeaderValueGetter = (_, __) => Task.FromResult(authService.IsLoggedIn ? authService.LoggedInUser!.Token : "");
                 return settings;
             }
 

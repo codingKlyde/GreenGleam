@@ -1,4 +1,4 @@
-﻿@inject AppState AppState
+﻿@inject AppState appState
 @inject IProductApi productApi
 @page "/"
 
@@ -59,8 +59,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        AppState.ShowLoader();
+        appState.ShowLoader();
         _products = await productApi.GetProductsAsync();
-        AppState.HideLoader();
+        appState.HideLoader();
     }
 }

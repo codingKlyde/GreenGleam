@@ -2,6 +2,7 @@
 @inject NavigationManager navigationManager
 @page "/cart"
 
+
 <SectionContent SectionName="pageTitle">
     Cart
 </SectionContent>
@@ -18,56 +19,50 @@
     {
         @if (cartService.CartItems.Count == 0)
         {
-            <div class="flex h-full flex-col items-center justify-center gap-3 py-10 text-center">
-                <i class="fa-solid fa-cart-shopping text-5xl text-gray-300"></i>
-                <span class="text-lg font-semibold text-gray-700">Your cart is empty</span>
-                <span class="text-sm text-gray-500">Looks like you haven’t added anything yet.</span>
+            <div class="mt-5 flex h-full flex-col items-center justify-center space-y-4 text-center">
+                <i class="fa-solid fa-cart-shopping text-7xl text-gray-300"></i>
+                <div>
+                    <p class="text-lg font-semibold text-gray-700">Your cart is empty</p>
+                    <p class="text-sm text-gray-500">Looks like you haven’t added anything yet.</p>
+                </div>
                 <NavLink href="/" class="rounded-lg bg-blue-500 px-6 py-2 text-sm font-medium text-white shadow active:bg-blue-600">
                     Continue Shopping
                 </NavLink>
             </div>
         }
-
     }
     else
     {
+        <!-- Loop through cart items and render them -->
         @foreach (var item in cartService.CartItems)
         {
-            <div class="flex items-start justify-between rounded-lg bg-white p-3 shadow-sm">
-                <div class="flex items-start gap-3">
-                    <img src="@item.Image"
-                         alt="@item.Name"
-                         class="h-16 w-16 rounded-lg object-cover" />
-
-                    <div class="flex h-full flex-col justify-between">
+            <div class="flex items-start justify-between rounded-lg bg-white p-4 shadow-sm">
+                <div class="flex items-center space-x-4">
+                    <img alt="@item.Name" class="h-16 w-16 rounded-lg object-cover" src="@item.Image" />
+                    <div class="flex h-full flex-col justify-between space-y-2">
                         <div>
                             <span class="font-semibold text-gray-800">@item.Name</span>
                             <span class="block text-sm text-gray-500">
                                 @item.Price.ToString("C") / @item.Unit
                             </span>
                         </div>
-
-                        <div class="mt-1 flex items-center gap-2">
-                            <button @onclick="() => cartService.DecreaseCartItemQuantity(item)"
-                                    class="flex h-7 w-7 items-center justify-center rounded border border-blue-500 text-blue-500 active:bg-blue-500 active:text-white">
+                        <div class="mt-1 flex items-center space-x-1">
+                            <button @onclick="() => cartService.DecreaseCartItemQuantity(item)" class="flex h-7 w-7 items-center justify-center rounded border border-blue-500 text-blue-500 active:bg-blue-500 active:text-white">
                                 <i class="fa-solid fa-minus text-xs"></i>
                             </button>
                             <span class="w-6 text-center text-sm font-medium">
                                 @item.Quantity
                             </span>
-                            <button @onclick="() => cartService.IncreaseCartItemQuantity(item)"
-                                    class="flex h-7 w-7 items-center justify-center rounded border border-blue-500 text-blue-500 active:bg-blue-500 active:text-white">
+                            <button @onclick="() => cartService.IncreaseCartItemQuantity(item)" class="flex h-7 w-7 items-center justify-center rounded border border-blue-500 text-blue-500 active:bg-blue-500 active:text-white">
                                 <i class="fa-solid fa-plus text-xs"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-
                 <div class="flex flex-col justify-between">
                     <button @onclick="() => cartService.RemoveCartItem(item)" class="text-gray-400 hover:text-red-500">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
-
                     <span class="text-sm font-semibold text-gray-800">
                         @item.Total.ToString("C")
                     </span>
@@ -76,9 +71,10 @@
         }
     }
 
+    <!-- Checkout section at the bottom (only visible if cart has items) -->
     @if (cartService.Count > 0)
     {
-        <div @onclick="Checkout" class="sticky bottom-0 z-40 bg-white px-4 py-3 shadow-inner">
+        <div @onclick="Checkout" class="sticky bottom-0 z-40 rounded-lg border border-neutral-200 bg-white p-4">
             <div class="flex items-center justify-between">
                 <div>
                     <span class="text-sm font-medium text-gray-500">
@@ -88,13 +84,14 @@
                         @cartService.TotalAmount.ToString("C")
                     </span>
                 </div>
-                <button class="rounded-lg bg-blue-500 px-6 py-2 text-white shadow active:bg-blue-600">
+                <button class="rounded-lg bg-blue-500 px-6 py-2 text-white active:bg-blue-600">
                     Continue
                 </button>
             </div>
         </div>
     }
 </div>
+
 
 @code {
     private void Checkout()

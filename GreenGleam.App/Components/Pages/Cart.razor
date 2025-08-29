@@ -36,8 +36,8 @@
         <!-- Loop through cart items and render them -->
         @foreach (var item in cartService.CartItems)
         {
-            <div class="flex items-start justify-between rounded-lg bg-white p-4 shadow-sm">
-                <div class="flex items-center space-x-4">
+            <div class="flex items-start justify-between rounded-xl bg-white p-4 shadow-md">
+                <div class="flex items-center gap-4">
                     <img alt="@item.Name" class="h-16 w-16 rounded-lg object-cover" src="@item.Image" />
                     <div class="flex h-full flex-col justify-between space-y-2">
                         <div>
@@ -74,7 +74,7 @@
     <!-- Checkout section at the bottom (only visible if cart has items) -->
     @if (cartService.Count > 0)
     {
-        <div @onclick="Checkout" class="sticky bottom-0 z-40 rounded-lg border border-neutral-200 bg-white p-4">
+        <div @onclick="Checkout" class="sticky bottom-0 z-40 rounded-xl border border-neutral-200 bg-white p-4">
             <div class="flex items-center justify-between">
                 <div>
                     <span class="text-sm font-medium text-gray-500">

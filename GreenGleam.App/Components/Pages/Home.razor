@@ -10,7 +10,7 @@
 
 <div class="space-y-5">
     <!-- Search Bar -->
-    <div class="rounded-lg border-2 border-blue-500">
+    <div class="rounded-xl border-2 border-blue-500">
         <div class="flex items-center rounded-lg bg-white px-4 py-2">
             <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
             <input type="text" placeholder="Search products..." class="ml-2 flex-grow bg-transparent text-sm text-gray-700 focus:outline-none" />
@@ -18,7 +18,7 @@
     </div>
 
     <!-- Banner -->
-    <div class="relative overflow-hidden rounded-lg shadow-md">
+    <div class="relative overflow-hidden rounded-xl">
         <img src="image/background/bg2.png" alt="" class="h-40 w-full object-cover" />
         <div class="absolute inset-0 bg-black opacity-30"></div>
         <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
@@ -31,7 +31,7 @@
         <div class="grid grid-cols-2 gap-4">
             @foreach (var p in _products)
             {
-                <div class="flex flex-col space-y-2 overflow-hidden rounded-lg bg-white p-4 shadow-md transition-transform duration-150 active:scale-95">
+                <div class="flex flex-col space-y-2 overflow-hidden rounded-xl bg-white p-4 shadow-md transition-transform duration-150 active:scale-95">
                     <div class="aspect-square">
                         <img class="h-full w-full rounded-lg object-cover" src="@p.Image" alt="@p.Name" />
                     </div>
@@ -47,7 +47,7 @@
                         <div class="flex-grow">
                             <CartButton Product="p" />
                         </div>
-                        <button class="flex h-8 w-8 items-center justify-center rounded border border-blue-500 text-blue-500 transition-transform duration-150 active:scale-90">
+                        <button class="flex h-8 w-8 items-center justify-center rounded-lg border border-blue-500 text-blue-500 transition-transform duration-150 active:scale-90">
                             <i class="fa-solid fa-info"></i>
                         </button>
                     </div>

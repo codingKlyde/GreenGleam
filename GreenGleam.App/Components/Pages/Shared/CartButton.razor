@@ -2,7 +2,7 @@
 
 @if (Product.Quantity == 0)
 {
-     <button @onclick="Increment" class="w-full rounded bg-blue-500 py-2 text-xs text-white transition-colors duration-150 active:bg-blue-600">
+     <button @onclick="Increment" class="w-full rounded-lg bg-blue-500 py-2 text-xs text-white transition-colors duration-150 active:bg-blue-600">
         Add to Cart
     </button>
 }
@@ -10,14 +10,14 @@ else
 {
     <div class="flex w-full items-center justify-between rounded">
         <button @onclick="Decrement"
-                class="flex h-8 w-8 items-center justify-center rounded bg-red-500 text-white shadow active:bg-red-600">
+                class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500 text-white shadow active:bg-red-600">
             <i class="fa-solid fa-minus"></i>
         </button>
         <span class="text-center font-bold">
             @Product.Quantity
         </span>
         <button @onclick="Increment"
-                class="flex h-8 w-8 items-center justify-center rounded bg-green-500 text-white shadow active:bg-green-600">
+                class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500 text-white shadow active:bg-green-600">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>

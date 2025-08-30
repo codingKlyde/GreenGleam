@@ -3,13 +3,13 @@
     [Headers("Authorization: Bearer ")]
     public interface IUserApi
     {
-        [Post("/api/user/save-address")]
+        [Post("/api/users/save-address")]
         Task<ApiResultDto> SaveAddressAsync(AddressDto addressDto);
 
-        [Get("/api/user/addresses")]
+        [Get("/api/users/addresses")]
         Task<AddressDto[]> GetAddresses();
 
-        [Post("/api/user/change-password")]
+        [Post("/api/users/change-password")]
         Task<ApiResultDto> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
     }
 }

@@ -62,11 +62,11 @@
             var result = await authApi.RegisterAsync(registerDto);
             if (!result.IsSuccess)
             {
-                MauiInterop.AlertAsync("Registration Failed", result.Error);
+                await MauiInterop.AlertAsync("Registration Failed", result.Error);
                 return;
             }
 
-            MauiInterop.AlertAsync("User registrated successfully");
+            await MauiInterop.AlertAsync("User registrated successfully");
 
             navigationManager.NavigateTo("/login", replace: true);
         }

@@ -17,6 +17,7 @@ builder.Services
     .AddTransient<AuthService>()
     .AddTransient<OrderService>()
     .AddTransient<ProductService>()
+    .AddTransient<TokenService>()
     .AddTransient<UserService>();
 
 builder.Services.AddAuthentication(options =>

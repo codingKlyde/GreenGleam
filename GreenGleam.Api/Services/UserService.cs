@@ -2,13 +2,16 @@
 {
     public class UserService
     {
-        private readonly IPasswordHasher<User> _passwordHasher;
         private readonly DataContext _dataContext;
+        private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly TokenService _tokenService;
 
-        public UserService(IPasswordHasher<User> passwordHasher, DataContext dataContext)
+
+        public UserService(DataContext dataContext, IPasswordHasher<User> passwordHasher, TokenService tokenService)
         {
-            _passwordHasher = passwordHasher;
             _dataContext = dataContext;
+            _passwordHasher = passwordHasher;
+            _tokenService = tokenService;
         }
 
         public async Task<ApiResultDto> SaveAddressAsync(AddressDto addressDto, int userId)
@@ -93,6 +96,30 @@
             catch (Exception ex) 
             {
                 return ApiResultDto.Fail(ex.Message);
+            }
+        }
+
+        public async Task<ApiResultDto<LoggedInUserDto>> UpdateProfileAsync(UpdateProfileDto updateProfileDto, int userId)
+        {
+            try
+            {
+                var user = await _dataContext.Users.FindAsync(userId);
+                if (user is null)
+                    return ApiResultDto<LoggedInUserDto>.Fail("User does not exist");
+
+                user.Name = updateProfileDto.Name;
+                user.MobileNumber = updateProfileDto.MobileNumber;
+
+                await _dataContext.SaveChangesAsync();
+
+                var jwt = _tokenService.GenerateJwtToken(user);
+                var loggedInUser = new LoggedInUserDto(user.Id, user.Name, user.Email, user.MobileNumber, jwt);
+
+                return ApiResultDto<LoggedInUserDto>.Success(loggedInUser);
+            }
+            catch (Exception ex)
+            {
+                return ApiResultDto<LoggedInUserDto>.Fail(ex.Message);
             }
         }
     }

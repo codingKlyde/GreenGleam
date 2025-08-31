@@ -25,7 +25,7 @@
         </div>
 
         <!-- Profile Options -->
-        <div class="mt-10 w-full max-w-md rounded-xl bg-white shadow">
+        <div class="w-full max-w-md rounded-xl bg-white shadow">
             <NavLink href="/edit-profile" class="m-4 flex items-center justify-between rounded-lg p-4 text-left hover:bg-gray-50">
                 <div class="flex items-center gap-4">
                     <i class="fa-solid fa-pen-to-square text-blue-500"></i>
@@ -36,7 +36,7 @@
                 </div>
                 <i class="fa-solid fa-chevron-right text-gray-400"></i>
             </NavLink>
-            <NavLink href="/edit-password" class="m-4 flex items-center justify-between rounded-lg p-4 text-left hover:bg-gray-50">
+            <NavLink href="/change-password" class="m-4 flex items-center justify-between rounded-lg p-4 text-left hover:bg-gray-50">
                 <div class="flex items-center gap-4">
                     <i class="fa-solid fa-key text-blue-500"></i>
                     <div>
@@ -58,9 +58,7 @@
             </NavLink>
         </div>
 
-        <!-- Logout -->
-        <button @onclick="Logout"
-                class="mt-6 w-full max-w-md rounded-lg bg-red-500 py-2 text-sm font-medium text-white shadow transition hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none">
+        <button @onclick="LogoutAsync" class="mt-6 w-full max-w-md rounded-lg bg-red-500 py-2 text-sm font-medium text-white shadow transition hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none">
             Logout
         </button>
     </div>
@@ -77,7 +75,7 @@
         }
     }
 
-    private async Task Logout()
+    private async Task LogoutAsync()
     {
         if (await MauiInterop.ConfirmAsync("Do you want to logout?", "Confirmation"))
         {

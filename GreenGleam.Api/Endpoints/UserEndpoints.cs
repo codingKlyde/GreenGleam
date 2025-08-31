@@ -27,6 +27,14 @@
            .Produces<ApiResultDto>()
            .WithName("Change-Password");
 
+
+            userGroup.MapPatch("/update-profile", async (UpdateProfileDto updateProfileDto, UserService userService, ClaimsPrincipal claimsPrincipal) =>
+            {
+                return Results.Ok(await userService.UpdateProfileAsync(updateProfileDto, claimsPrincipal.GetUserId()));
+            })
+            .Produces<ApiResultDto<LoggedInUserDto>>()
+            .WithName("Update-Profile");
+
             return endpointRoute;
         }
     }

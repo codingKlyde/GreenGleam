@@ -9,7 +9,7 @@
         [Required, MaxLength(50)]
         public string Email { get; set; }
         [MaxLength(50)]
-        public string MobileNumber { get; set; }
+        public string? MobileNumber { get; set; }
         [Required]
         public string PasswordHash { get; set; }
 

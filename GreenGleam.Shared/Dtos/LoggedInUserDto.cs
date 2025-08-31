@@ -4,5 +4,6 @@
         int Id,
         string Name,
         string Email,
+        string? MobileNumber,
         string Token);
 }

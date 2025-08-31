@@ -11,5 +11,8 @@
 
         [Post("/api/users/change-password")]
         Task<ApiResultDto> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
+
+        [Patch("/api/users/update-profile")]
+        Task<ApiResultDto<LoggedInUserDto>> UpdateProfileAsync(UpdateProfileDto updateProfileDto);
     }
 }

@@ -1,0 +1,87 @@
+﻿@layout EmptyLayout
+@inject AppState appState
+@inject AuthService authService 
+@inject IUserApi userApi
+@inject NavigationManager navigationManager
+@page "/update-profile"
+
+
+<div class="flex items-center justify-center bg-gray-50">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
+        <!-- Header -->
+        <div class="mb-6 text-center">
+            <h1 class="mt-2 text-xl font-bold text-gray-800">Edit Profile</h1>
+            <p class="text-sm text-gray-500">Update your personal information</p>
+        </div>
+
+        <!-- Form -->
+        <EditForm Model="updateProfileDto" class="space-y-4" OnValidSubmit="SaveAsync">
+            <DataAnnotationsValidator/>
+            <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">Name</label>
+                <InputText @bind-Value="updateProfileDto.Name" placeholder="Enter your full name" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                <ValidationMessage For="() => updateProfileDto.Name" class="flex items-center gap-1 text-xs text-red-500" />
+            </div>
+            <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">Mobile Number</label>
+                <InputText @bind-Value="updateProfileDto.MobileNumber" placeholder="Enter your full name" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                <ValidationMessage For="() => updateProfileDto.MobileNumber" class="flex items-center gap-1 text-xs text-red-500" />
+            </div>
+
+            <div class="space-y-3">
+                <button type="submit" class="w-full rounded-lg bg-blue-500 py-2 text-sm font-medium text-white shadow-md transition hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    Save Changes
+                </button>
+                <button @onclick="Back" type="button" class="w-full rounded-lg border border-gray-300 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-100 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    Back
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+@code {
+    private UpdateProfileDto updateProfileDto = new();
+
+    protected override void OnInitialized()
+    {
+        updateProfileDto.Name = authService.LoggedInUser.Name;
+        updateProfileDto.MobileNumber = authService.LoggedInUser!.MobileNumber;
+    }
+
+    private async Task SaveAsync()
+    {
+        appState.ShowLoader();
+
+        try
+        {
+            var apiResult = await userApi.UpdateProfileAsync(updateProfileDto);
+            if (!apiResult.IsSuccess)
+            {
+                await Snackbar.Make(apiResult.Error).Show();
+                return;
+            }
+
+            await Snackbar.Make("Profile updated successfully").Show();
+
+            var loggedInUser = apiResult.Data;
+            authService.Login(loggedInUser);
+
+            navigationManager.NavigateTo("/profile", replace: true);
+        }
+        catch (Exception ex)
+        {
+            await Snackbar.Make(ex.Message).Show();
+        }
+        finally
+        {
+            appState.HideLoader();
+        }
+    }
+
+    private void Back()
+    {
+        navigationManager.NavigateTo("/profile");
+    }
+}

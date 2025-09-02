@@ -1,0 +1,97 @@
+﻿@inject AppState appState
+@inject AuthService authService
+@inject CartService cartService
+@inject IOrderApi orderApi
+@inject IUserApi userApi
+@inject NavigationManager navigationManager
+@page "/place-order"
+
+
+<div class="mx-auto max-w-lg space-y-6 p-4">
+    <h3 class="text-2xl font-semibold text-gray-800">Checkout</h3>
+
+    <!-- Address List -->
+    <div>
+        <label for="address" class="mb-2 block text-sm font-medium text-gray-700">
+            Select Delivery Address
+        </label>
+        <select @bind="@selectedAddressId" class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            <option value="0" disabled>
+                -- Select Address --
+            </option>
+            @foreach (var addr in addressListDto)
+            {
+                <option value="@addr.Id">
+                    @addr.Name - @addr.Address
+                </option>
+            }
+        </select>
+    </div>
+
+    <NavLink href="/manage-addresses" class="mt-5 text-sm font-medium text-blue-600 hover:underline">
+        Manage Addresses
+    </NavLink>
+    <button @onclick="PlaceOrderAsync" class="w-full rounded-lg bg-green-600 py-3 text-lg font-medium text-white shadow-md transition hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:outline-none disabled:opacity-50" disabled="@(selectedAddressId == 0)">
+        Proceed to Checkout
+    </button>
+</div>
+
+
+@code {
+    private AddressDto[] addressListDto { get; set; } = Array.Empty<AddressDto>();
+    private int selectedAddressId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            addressListDto = await userApi.GetAddressesAsync();
+            selectedAddressId = addressListDto.FirstOrDefault(a => a.isDefault)?.Id ?? addressListDto.FirstOrDefault()?.Id ?? 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading addresses: {ex.Message}");
+        }
+    }
+
+    private async Task PlaceOrderAsync()
+    {
+        if (selectedAddressId == 0)
+        {
+            await Snackbar.Make("No address is selected").Show();
+            return;
+        }
+
+        appState.ShowLoader();
+        try
+        {
+            OrderItemSaveDto[] orderItems = cartService.CartItems.Select(i => new  OrderItemSaveDto
+            {
+                ProductId = i.ProductId,
+                Quantity = i.Quantity 
+            })
+            .ToArray();
+            var selectedAddress = addressListDto.First(a => a.Id == selectedAddressId);
+            var placeOrderDto = new PlaceOrderDto(orderItems, selectedAddressId, selectedAddress.Name, selectedAddress.Address);
+            var apiResult = await orderApi.PlaceOrderAsync(placeOrderDto);
+
+            if (!apiResult.IsSuccess)
+            {
+                await Snackbar.Make(apiResult.Error ?? "Failed to place order").Show();
+                return;
+            }   
+
+            await Snackbar.Make("Order placed").Show();
+            cartService.ClearCart();
+        }
+        catch (Exception ex)
+        {
+            var error = ex.InnerException?.Message ?? ex.Message;
+             ApiResultDto.Fail(error);
+        }
+        finally
+        {
+            appState.HideLoader();
+        }
+    }
+}

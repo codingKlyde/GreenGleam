@@ -14,6 +14,18 @@
             _tokenService = tokenService;
         }
 
+        public async Task<AddressDto[]> GetAddressesAsync(int userId) => await _dataContext.UserAddresses
+           .AsTracking()
+           .Where(a => a.UserId == userId)
+           .Select(a => new AddressDto
+           {
+               Id = a.Id,
+               Name = a.Name,
+               Address = a.Address,
+               isDefault = a.IsDefault
+           })
+           .ToArrayAsync();
+
         public async Task<ApiResultDto> SaveAddressAsync(AddressDto addressDto, int userId)
         {
             UserAddress? userAddress = null;
@@ -61,18 +73,26 @@
                 return ApiResultDto.Fail(ex.Message);
             }
         }
+   
+        public async Task<ApiResultDto> DeleteAddressAsync(int addressId, int userId)
+        {
+            var address = await _dataContext.UserAddresses.FindAsync(addressId);
+            if (address is null)
+                return ApiResultDto.Fail("Address does not exist");
+            if (address.UserId != userId)
+                return ApiResultDto.Fail("You are not authorized to delete this address");
 
-        public async Task<AddressDto[]> GetAddresses(int userId) => await _dataContext.UserAddresses
-            .AsTracking()
-            .Where(a => a.Id == userId)
-            .Select(a => new AddressDto
+            try
             {
-                Id = a.Id,
-                Name = a.Name,
-                Address = a.Address,
-                isDefault = a.IsDefault
-            })
-            .ToArrayAsync();
+                _dataContext.UserAddresses.Remove(address);
+                await _dataContext.SaveChangesAsync();
+                return ApiResultDto.Success();
+            }
+            catch (Exception ex)
+            {
+                return ApiResultDto.Fail(ex.Message);
+            }
+        }
 
         public async Task<ApiResultDto> ChangePasswordAsync(ChangePasswordDto changePasswordDto, int userId)
         {

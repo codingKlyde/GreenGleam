@@ -13,12 +13,12 @@
             .Produces<ApiResultDto>()
             .WithName("Place-Order");
 
-            orderGroup.MapGet("/user/{userId:int}", async (OrderService orderService, ClaimsPrincipal claimsPrincipal, int userId, int startIndex, int pageSize) =>
+            orderGroup.MapGet("/user/{userId:int}", async (OrderService orderService, ClaimsPrincipal claimsPrincipal, int startIndex, int pageSize, int userId) =>
             {
                 if (userId != claimsPrincipal.GetUserId())
                     return Results.Unauthorized();
 
-                return Results.Ok(await orderService.GetOrdersAsync(claimsPrincipal.GetUserId(), startIndex, pageSize));
+                return Results.Ok(await orderService.GetOrdersAsync(startIndex, pageSize, claimsPrincipal.GetUserId()));
             })
             .Produces<OrderDto[]>()
             .WithName("Get-Orders");

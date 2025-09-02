@@ -15,7 +15,7 @@
 
         public string ProductDescription { get; set; }
 
-        public string ProducImage { get; set; }
+        public string ProductImage { get; set; }
 
         public decimal ProductPrice { get; set; }
     }

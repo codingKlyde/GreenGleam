@@ -1,0 +1,171 @@
+﻿@layout EmptyLayout
+@inject AppState appState
+@inject IUserApi userApi
+@inject NavigationManager navigationManager
+@page "/manage-addresses"
+
+
+<div class="flex min-h-screen items-center justify-center bg-gray-50">
+    <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
+        <!-- Header -->
+        <div class="mb-6 text-center">
+            <h1 class="mt-2 text-xl font-bold text-gray-800">Manage Addresses</h1>
+            <p class="text-sm text-gray-500">Add or update your delivery addresses</p>
+        </div>
+
+    
+
+        @if (addressDto is not null)
+        {
+            <!-- Form -->
+            <EditForm Model="addressDto" class="space-y-4" OnValidSubmit="SaveAsync">
+                <DataAnnotationsValidator />
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">Address Name</label>
+                    <InputText @bind-Value="addressDto.Name" type="text" placeholder="Address Name" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                    <ValidationMessage For="() => addressDto.Name" class="flex items-center gap-1 text-xs text-red-500" />
+                </div>
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">Address</label>
+                    <InputText @bind-Value="addressDto.Address" type="text" placeholder="Address" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" />
+                    <ValidationMessage For="() => addressDto.Address" class="flex items-center gap-1 text-xs text-red-500" />
+                </div>
+                <div>
+                    <label class="relative inline-flex cursor-pointer items-center">
+                        <InputCheckbox id="isDefaultChecked" @bind-Value="addressDto.isDefault" class="peer sr-only" />
+                        <label for="isDefaultChecked" class="peer h-6 w-11 rounded-full bg-gray-300 peer-checked:bg-blue-600 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-full">
+                            Is Default
+                        </label>
+                    </label>
+                </div>
+            
+                <div class="space-y-3">
+                    <button type="submit" class="w-full rounded-lg bg-blue-500 py-2 text-sm font-medium text-white shadow-md transition hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                        Save
+                    </button>
+                    <button @onclick="() => addressDto = null" type="button" class="w-full rounded-lg border border-gray-300 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-100 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                        Back
+                    </button>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <!-- Addresses -->
+            <div class="space-y-4">
+                <div class="space-y-3">
+                    <button @onclick="() => addressDto = new()" class="mb-4 w-full rounded-lg bg-green-500 py-2 text-sm font-medium text-white shadow-md transition hover:bg-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none">
+                        Add New Address
+                    </button>
+                    <button @onclick="@(() => navigationManager.NavigateTo("/profile"))" type="button" class="w-full rounded-lg border border-gray-300 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-100 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                        Back
+                    </button>
+                </div>
+                @foreach (var addr in addressListDto)
+                {
+                    <div class="flex items-start justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                        <div>
+                            <p class="font-medium text-gray-800">@addr.Name</p>
+                            <p class="text-sm text-gray-600">@addr.Address</p>
+
+                            @if (addr.isDefault)
+                            {
+                                <span class="mt-1 inline-block rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-600">
+                                    Default
+                                </span>
+                            }
+                        </div>
+                        <div class="flex flex-col items-end space-y-2">
+                            <button @onclick="() => addressDto = addr" class="w-30 rounded-md bg-blue-500 p-2 text-xs font-medium text-white shadow-sm hover:bg-blue-600">
+                                Edit
+                            </button>
+                            <button @onclick="() => DeleteAddressAsync(addr.Id)" class="w-30 rounded-md bg-red-500 p-2 text-xs font-medium text-white shadow-sm hover:bg-red-600">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    private AddressDto[] addressListDto { get; set; } = Array.Empty<AddressDto>();
+    private AddressDto? addressDto = null;
+
+    protected override async Task OnInitializedAsync() => await LoadAddressesAsync();
+
+    private async Task LoadAddressesAsync()
+    {
+        appState.ShowLoader();
+        try
+        {
+            addressListDto =  await userApi.GetAddressesAsync();
+        }
+        catch (Exception ex)
+        {
+            await Snackbar.Make(ex.Message).Show();
+        }
+        finally
+        {
+            appState.HideLoader();
+        }
+    }
+
+    private async Task DeleteAddressAsync(int addressId)
+    {
+        try
+        {
+            appState.ShowLoader();
+
+            var apiResult = await userApi.DeleteAddressAsync(addressId);
+            if (!apiResult.IsSuccess)
+            {
+                await Snackbar.Make(apiResult.Error).Show();
+                return;
+            }
+
+            await Snackbar.Make("Address deleted successfully").Show();
+            addressDto = null;
+            await LoadAddressesAsync();
+        }
+        catch (Exception ex)
+        {
+            await Snackbar.Make(ex.Message).Show();
+        }
+        finally
+        {
+            appState.HideLoader();
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        appState.ShowLoader();
+
+        try
+        {
+            var apiResult = await userApi.SaveAddressAsync(addressDto);
+            if (!apiResult.IsSuccess)
+            {
+                await Snackbar.Make(apiResult.Error).Show();
+                return;
+            }
+
+            await Snackbar.Make("Address saved successfully").Show();
+            addressDto = null;
+            await LoadAddressesAsync();
+            
+        }
+        catch (Exception ex)
+        {
+            await Snackbar.Make(ex.Message).Show();
+        }
+        finally
+        {
+            appState.HideLoader();
+        }
+    }
+}   

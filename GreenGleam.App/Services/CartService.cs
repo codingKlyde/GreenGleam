@@ -65,6 +65,7 @@
 
             await Snackbar.Make("Item removed").Show();
         }
+
         public async Task ClearCartAsync()
         {
             if (CartItems.Count == 0)
@@ -77,6 +78,11 @@
 
                 await Snackbar.Make("Cart cleared").Show();
             }
+        }
+        public void ClearCart()
+        {
+            CartItems.Clear();
+            NotifyCartItemCountChanged();
         }
     }
 }

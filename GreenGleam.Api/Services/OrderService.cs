@@ -22,7 +22,7 @@
                 .Where(p => productIds.Contains(p.Id))
                 .ToDictionaryAsync(p => p.Id);
 
-            if (products.Count == placeOrderDto.OrderItems.Length)
+            if (products.Count != placeOrderDto.OrderItems.Length)
                 return ApiResultDto.Fail("Some product is not available");
 
             var oderItems = placeOrderDto.OrderItems
@@ -30,11 +30,11 @@
                 {
                     ProductId = o.ProductId,
                     ProductName = products[o.ProductId].Name,
-                    ProducImage = products[o.ProductId].Image,
+                    ProductImage = products[o.ProductId].Image,
                     ProductDescription = products[o.ProductId].Description,
                     ProductPrice = products[o.ProductId].Price,
                     Quantity = o.Quantity,
-
+                    Unit = products[o.ProductId].Unit
                 })
                 .ToArray();
 
@@ -101,7 +101,7 @@
                     Id = o.Id,
                     ProductId = o.ProductId,
                     ProductName = o.ProductName,
-                    ProducImage = o.ProducImage,
+                    ProductImage = o.ProductImage,
                     ProductDescription = o.ProductDescription,
                     Quantity = o.Quantity,
                     Unit = o.Unit,

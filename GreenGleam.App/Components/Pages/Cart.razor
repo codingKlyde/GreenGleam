@@ -1,4 +1,6 @@
-﻿@inject CartService cartService
+﻿@inject AuthService authService
+@inject CartService cartService
+@inject IUserApi userApi
 @inject NavigationManager navigationManager
 @page "/cart"
 
@@ -33,7 +35,7 @@
     }
     else
     {
-        <!-- Loop through cart items and render them -->
+        <!-- Cart Items -->
         @foreach (var item in cartService.CartItems)
         {
             <div class="flex items-start justify-between rounded-xl bg-white p-4 shadow-md">
@@ -74,7 +76,7 @@
     <!-- Checkout section at the bottom (only visible if cart has items) -->
     @if (cartService.Count > 0)
     {
-        <div @onclick="Checkout" class="sticky bottom-0 z-40 rounded-xl border border-neutral-200 bg-white p-4">
+        <div @onclick="ContinueAsync" class="sticky bottom-0 z-40 rounded-xl border border-neutral-200 bg-white p-4">
             <div class="flex items-center justify-between">
                 <div>
                     <span class="text-sm font-medium text-gray-500">
@@ -94,8 +96,31 @@
 
 
 @code {
-    private void Checkout()
+    private AddressDto[] addressListDto { get; set; } = Array.Empty<AddressDto>();
+
+    private async Task ContinueAsync()
     {
-        navigationManager.NavigateTo("/login");
+        if (!authService.IsLoggedIn)
+        {
+            authService.RedirectFromLogin = "/cart";
+            navigationManager.NavigateTo("/login");
+            return;
+        }
+
+        if (addressListDto.Length == 0)
+        {
+            addressListDto = await userApi.GetAddressesAsync();
+
+            if (addressListDto.Length == 0)
+            {
+                if (await MauiInterop.ConfirmAsync("Please add an address before proceeding to checkout.", "No address found"))
+                {
+                    navigationManager.NavigateTo("/manage-addresses");
+                    return;
+                }
+            }
+        }
+
+        navigationManager.NavigateTo("/place-order");
     }
 }

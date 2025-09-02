@@ -83,6 +83,7 @@
 
             await Snackbar.Make("Order placed").Show();
             cartService.ClearCart();
+            navigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {

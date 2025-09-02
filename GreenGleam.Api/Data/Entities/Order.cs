@@ -10,7 +10,7 @@
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal TotalAmount { get; set; }
         public int TotalItems { get; set; }
-        [Required, MaxLength(500)]
+        [MaxLength(500)]
         public string? Notes { get; set; }
         [Required, MaxLength(15)]
         public string Status { get; set; } = nameof(OrderStatus.Placed);

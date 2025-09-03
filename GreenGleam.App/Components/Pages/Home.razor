@@ -1,4 +1,5 @@
 ﻿@inject AppState appState
+@inject CartService cartService 
 @inject IProductApi productApi
 @page "/"
 
@@ -70,7 +71,18 @@
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
+
         _products = await productApi.GetProductsAsync();
+
+        foreach (var cartItem in cartService.CartItems)
+        {
+            var product = _products.FirstOrDefault(p => p.Id == cartItem.ProductId);
+            if (product is not null)
+            {
+                product.Quantity = cartItem.Quantity;
+            }
+        }
+
         isLoading = false;
     }
 }

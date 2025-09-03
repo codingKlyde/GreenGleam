@@ -1,0 +1,109 @@
+﻿@inject AppState appState
+@inject AuthService authService
+@inject IOrderApi orderApi
+@inject NavigationManager navigationManager
+@page "/orders/{orderId:int}"
+
+
+@if (orderDto is null)
+{
+    <div class="flex h-full items-center justify-center">
+        <p class="text-gray-500">Loading order details...</p>
+    </div>
+}
+else
+{
+    <div class="mx-auto max-w-4xl space-y-6 p-4">
+        <!-- Order Information -->
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow">
+            <div class="mb-4 flex items-center justify-between">
+                <h2 class="text-xl font-semibold text-gray-800">Order #@orderDto.Id</h2>
+                <span class="rounded-full px-3 py-1 text-xs font-medium text-white"
+                      style="background-color:@orderDto.StatusColor">
+                    @orderDto.Status
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 text-sm text-gray-700">
+                <p><span class="font-medium">Date:</span> @orderDto.Date.ToString("MMM dd, yyyy hh:mm tt")</p>
+                <p><span class="font-medium">Items:</span> @orderDto.TotalItems</p>
+                <p><span class="font-medium">Total:</span> <span class="font-semibold">@orderDto.TotalAmount.ToString("C")</span></p>
+                <p><span class="font-medium">Address:</span> @orderDto.AddressName</p>
+                @if (!string.IsNullOrWhiteSpace(orderDto.Notes))
+                {
+                    <p class="col-span-2"><span class="font-medium">Notes:</span> @orderDto.Notes</p>
+                }
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow">
+            <h3 class="mb-4 text-lg font-semibold text-gray-800">Order Items</h3>
+
+            @if (orderDto.orderItems.Length == 0)
+            {
+                <p class="text-sm text-gray-500">No items found for this order.</p>
+            }
+            else
+            {
+                <div class="divide-y divide-gray-200">
+                    @foreach (var item in orderDto.orderItems)
+                    {
+                        <div class="flex items-center justify-between py-4">
+                            <div class="flex items-center space-x-4">
+                                <img src="@item.ProductImage" alt="@item.ProductName" class="h-16 w-16 rounded-lg border object-cover p-2" />
+                                <div>
+                                    <p class="font-medium text-gray-800">@item.ProductName</p>
+                                    <p class="text-sm text-gray-500">@item.ProductDescription</p>
+                                    <p class="text-sm text-gray-600">Qty: <span class="font-medium">@item.Quantity @item.Unit</span></p>
+                                </div>
+                            </div>
+                            <p class="font-semibold text-gray-900">
+                                @item.Amount.ToString("C")
+                            </p>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="text-right">
+            <button @onclick="@(() => navigationManager.NavigateTo("/history"))" class="rounded-lg border border-gray-300 px-5 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-100 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                Back to History
+            </button>
+        </div>
+    </div>
+}
+
+ 
+@code {
+    [Parameter] 
+    public int OrderId { get; set; }
+
+    private OrderDto? orderDto;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        appState.ShowLoader();
+        try
+        {
+            var apiResult = await orderApi.GetOrderItemsAsync(OrderId, authService.LoggedInUser.Id);
+            if (!apiResult.IsSuccess)
+            {
+                await MauiInterop.AlertAsync(apiResult.Error, "Error");
+                navigationManager.NavigateTo("/history", replace: true);
+                return;
+            }
+
+            orderDto = apiResult.Data;
+        }
+        catch (Exception ex)
+        {
+            await MauiInterop.AlertAsync(ex.Message, "Error");
+        }
+        finally
+        {
+            appState.HideLoader();
+        }
+    } 
+}

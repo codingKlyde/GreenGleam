@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace GreenGleam.Api.Services
+﻿namespace GreenGleam.Api.Services
 {
     public class TokenService
     {

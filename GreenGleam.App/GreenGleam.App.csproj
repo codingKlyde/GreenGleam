@@ -75,6 +75,8 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
         <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
     </ItemGroup>
 
     <ItemGroup>
@@ -82,15 +84,96 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="wwwroot\image\product\bell_pepper.png" />
-      <None Include="wwwroot\image\product\brussels_sprouts.png" />
-      <None Include="wwwroot\image\product\chili_pepper.png" />
-      <None Include="wwwroot\image\product\passion_fruit.png" />
-      <None Include="wwwroot\image\product\sweet_potato.png" />
+      <Folder Include="Resources\Images\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\Images\" />
+      <None Include="wwwroot\css\app.css" />
+      <None Include="wwwroot\css\fontawesome7\css\all.min.css" />
+      <None Include="wwwroot\css\fontawesome7\LICENSE.txt" />
+      <None Include="wwwroot\css\fontawesome7\webfonts\fa-brands-400.woff2" />
+      <None Include="wwwroot\css\fontawesome7\webfonts\fa-regular-400.woff2" />
+      <None Include="wwwroot\css\fontawesome7\webfonts\fa-solid-900.woff2" />
+      <None Include="wwwroot\css\fontawesome7\webfonts\fa-v4compatibility.woff2" />
+      <None Include="wwwroot\image\background\bg1.jpg" />
+      <None Include="wwwroot\image\background\bg2.png" />
+      <None Include="wwwroot\image\background\Credits.txt" />
+      <None Include="wwwroot\image\product\apple.png" />
+      <None Include="wwwroot\image\product\apricot.png" />
+      <None Include="wwwroot\image\product\arugula.png" />
+      <None Include="wwwroot\image\product\asparagus.png" />
+      <None Include="wwwroot\image\product\avocado.png" />
+      <None Include="wwwroot\image\product\banana.png" />
+      <None Include="wwwroot\image\product\basil.png" />
+      <None Include="wwwroot\image\product\beet.png" />
+      <None Include="wwwroot\image\product\bell_pepper.png" />
+      <None Include="wwwroot\image\product\berries.png" />
+      <None Include="wwwroot\image\product\blueberry.png" />
+      <None Include="wwwroot\image\product\broccoli.png" />
+      <None Include="wwwroot\image\product\brussels_sprouts.png" />
+      <None Include="wwwroot\image\product\cabbage.png" />
+      <None Include="wwwroot\image\product\caper.png" />
+      <None Include="wwwroot\image\product\carambola.png" />
+      <None Include="wwwroot\image\product\carrot.png" />
+      <None Include="wwwroot\image\product\cauliflower.png" />
+      <None Include="wwwroot\image\product\celery.png" />
+      <None Include="wwwroot\image\product\cherry.png" />
+      <None Include="wwwroot\image\product\chestnut.png" />
+      <None Include="wwwroot\image\product\chili_pepper.png" />
+      <None Include="wwwroot\image\product\coconut.png" />
+      <None Include="wwwroot\image\product\corn.png" />
+      <None Include="wwwroot\image\product\Credit.txt" />
+      <None Include="wwwroot\image\product\cucumber.png" />
+      <None Include="wwwroot\image\product\date.png" />
+      <None Include="wwwroot\image\product\dill.png" />
+      <None Include="wwwroot\image\product\eggplant.png" />
+      <None Include="wwwroot\image\product\fig.png" />
+      <None Include="wwwroot\image\product\garlic.png" />
+      <None Include="wwwroot\image\product\ginger.png" />
+      <None Include="wwwroot\image\product\goji.png" />
+      <None Include="wwwroot\image\product\gooseberry.png" />
+      <None Include="wwwroot\image\product\grapefruit.png" />
+      <None Include="wwwroot\image\product\grapes.png" />
+      <None Include="wwwroot\image\product\guava.png" />
+      <None Include="wwwroot\image\product\horseradish.png" />
+      <None Include="wwwroot\image\product\kiwi.png" />
+      <None Include="wwwroot\image\product\kohlrabi.png" />
+      <None Include="wwwroot\image\product\kumquat.png" />
+      <None Include="wwwroot\image\product\leek.png" />
+      <None Include="wwwroot\image\product\lemon.png" />
+      <None Include="wwwroot\image\product\lettuce.png" />
+      <None Include="wwwroot\image\product\lime.png" />
+      <None Include="wwwroot\image\product\mango.png" />
+      <None Include="wwwroot\image\product\mangosteen.png" />
+      <None Include="wwwroot\image\product\melon.png" />
+      <None Include="wwwroot\image\product\olives.png" />
+      <None Include="wwwroot\image\product\orange.png" />
+      <None Include="wwwroot\image\product\papaya.png" />
+      <None Include="wwwroot\image\product\parsley.png" />
+      <None Include="wwwroot\image\product\passion_fruit.png" />
+      <None Include="wwwroot\image\product\peach.png" />
+      <None Include="wwwroot\image\product\pear.png" />
+      <None Include="wwwroot\image\product\peas.png" />
+      <None Include="wwwroot\image\product\persimmon.png" />
+      <None Include="wwwroot\image\product\pineapple.png" />
+      <None Include="wwwroot\image\product\plum.png" />
+      <None Include="wwwroot\image\product\pomegranate.png" />
+      <None Include="wwwroot\image\product\potato.png" />
+      <None Include="wwwroot\image\product\pumpkin.png" />
+      <None Include="wwwroot\image\product\quince.png" />
+      <None Include="wwwroot\image\product\radish.png" />
+      <None Include="wwwroot\image\product\rambutan.png" />
+      <None Include="wwwroot\image\product\raspberry.png" />
+      <None Include="wwwroot\image\product\rhubarb.png" />
+      <None Include="wwwroot\image\product\spinach.png" />
+      <None Include="wwwroot\image\product\squash.png" />
+      <None Include="wwwroot\image\product\strawberry.png" />
+      <None Include="wwwroot\image\product\sweet_potato.png" />
+      <None Include="wwwroot\image\product\tomato.png" />
+      <None Include="wwwroot\image\product\turnip.png" />
+      <None Include="wwwroot\image\product\watermelon.png" />
+      <None Include="wwwroot\image\product\zucchini.png" />
+      <None Include="wwwroot\index.html" />
     </ItemGroup>
 
     <ItemGroup>

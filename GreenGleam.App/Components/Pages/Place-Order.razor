@@ -82,7 +82,7 @@
             }   
 
             await Snackbar.Make("Order placed").Show();
-            cartService.ClearCart();
+            await cartService.ClearCartAfterOrder();
             navigationManager.NavigateTo("/");
         }
         catch (Exception ex)

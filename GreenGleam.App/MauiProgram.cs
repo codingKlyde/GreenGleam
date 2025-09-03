@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui;
-
-namespace GreenGleam.App
+﻿namespace GreenGleam.App
 {
     public static class MauiProgram
     {
@@ -26,6 +24,7 @@ namespace GreenGleam.App
 #endif
 
             builder.Services
+                .AddSingleton<LocalDataContext>()
                 .AddSingleton<AppState>()
                 .AddSingleton<AuthService>()
                 .AddSingleton<CartService>()

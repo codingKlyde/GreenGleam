@@ -18,5 +18,9 @@
         public string ProductImage { get; set; }
 
         public decimal ProductPrice { get; set; }
+
+
+        public decimal Amount => Quantity * ProductPrice;
+
     }
 }

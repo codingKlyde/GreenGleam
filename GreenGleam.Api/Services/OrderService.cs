@@ -82,7 +82,7 @@
                 })
                 .ToArrayAsync();
 
-        public async Task<ApiResultDto<OrderItemDto[]>> GetOrderItemsAsync(int orderId, int userId)
+        public async Task<ApiResultDto<OrderDto>> GetOrderItemsAsync(int orderId, int userId)
         {
             var checkOrder = await _dataContext.Orders
                 .AsNoTracking()
@@ -90,10 +90,10 @@
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (checkOrder is null)
-                return ApiResultDto<OrderItemDto[]>.Fail("Order is not found");
+                return ApiResultDto<OrderDto>.Fail("Order is not found");
 
             if (checkOrder.UserId != userId)
-                return ApiResultDto<OrderItemDto[]>.Fail("Order is not found in your account");
+                return ApiResultDto<OrderDto>.Fail("Order is not found in your account");
 
             var getOrder = checkOrder.OderItems
                 .Select(o => new OrderItemDto
@@ -103,12 +103,26 @@
                     ProductName = o.ProductName,
                     ProductImage = o.ProductImage,
                     ProductDescription = o.ProductDescription,
+                    ProductPrice = o.ProductPrice,
                     Quantity = o.Quantity,
-                    Unit = o.Unit,
+                    Unit = o.Unit
                 })
                 .ToArray();
 
-            return ApiResultDto<OrderItemDto[]>.Success(getOrder);
+            var orderDto = new OrderDto
+            {
+                Address = checkOrder.Address,
+                AddressName = checkOrder.AddressName,
+                Date = checkOrder.Date,
+                Id = checkOrder.Id,
+                orderItems = getOrder,
+                Notes = checkOrder.Notes,
+                Status = checkOrder.Status,
+                TotalAmount = checkOrder.TotalAmount,
+                TotalItems = checkOrder.TotalItems,
+            };
+
+            return ApiResultDto<OrderDto>.Success(orderDto);
         }
     }
 }

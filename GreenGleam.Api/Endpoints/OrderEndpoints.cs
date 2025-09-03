@@ -28,9 +28,9 @@
                 if (userId != claimsPrincipal.GetUserId())
                     return Results.Unauthorized();
 
-                return Results.Ok(await orderService.GetOrderItemsAsync(claimsPrincipal.GetUserId(), orderId));
+                return Results.Ok(await orderService.GetOrderItemsAsync(orderId, claimsPrincipal.GetUserId()));
             })
-           .Produces<OrderItemDto[]>()
+           .Produces<OrderDto>()
            .WithName("Get-Order-Items");
 
             return endpointRoute;

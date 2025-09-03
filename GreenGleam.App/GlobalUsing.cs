@@ -7,7 +7,10 @@ global using System.Text.Json;
 
 global using Microsoft.Extensions.Logging;
 
+global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Alerts;
 global using CommunityToolkit.Mvvm.ComponentModel;
 
 global using Refit;
+
+global using SQLite;

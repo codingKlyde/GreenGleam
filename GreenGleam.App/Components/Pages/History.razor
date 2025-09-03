@@ -1,8 +1,8 @@
-﻿@page "/history"
-@inject AppState appState
+﻿@inject AppState appState
 @inject AuthService authService 
 @inject IOrderApi orderApi
 @inject NavigationManager navigationManager
+@page "/history"
 
 
 <SectionContent SectionName="pageTitle">
@@ -19,8 +19,7 @@
                 <p class="text-lg font-semibold text-gray-700">Your history is empty</p>
                 <p class="text-sm text-gray-500">Looks like you haven’t placed any orders yet.</p>
             </div>
-            <NavLink href="/" 
-                     class="rounded-lg bg-blue-500 px-6 py-2 text-sm font-medium text-white shadow transition hover:bg-blue-600">
+            <NavLink href="/" class="rounded-lg bg-blue-500 px-6 py-2 text-sm font-medium text-white shadow transition hover:bg-blue-600">
                 Continue Shopping
             </NavLink>
         </div>
@@ -28,12 +27,13 @@
     else
     {
         <div class="mt-6 space-y-4">
-            @foreach (var o in orderDto)
+           @foreach (var o in orderDto)
             {
                 <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md">
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-semibold text-gray-700">#@o.Id</h3>
-                        <span class="rounded-full px-3 py-1 text-xs font-medium text-white" style="background-color:@o.StatusColor">
+                        <span class="rounded-full px-3 py-1 text-xs font-medium text-white" 
+                              style="background-color:@o.StatusColor">
                             @o.Status
                         </span>
                     </div>
@@ -56,6 +56,10 @@
                             @o.AddressName
                         </p>
                     </div>
+
+                    <button @onclick="() => GoToOrderDetails(o.Id)" class="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-600">
+                        View Order
+                    </button>
                 </div>
             }
         </div>
@@ -88,7 +92,7 @@
         appState.ShowLoader();
         try
         {
-           orderDto = await orderApi.GetOrdersAsync(0, 50, authService.LoggedInUser.Id);
+            orderDto = await orderApi.GetOrdersAsync(0, 50, authService.LoggedInUser.Id);
         }
         catch (Exception ex)
         {
@@ -99,4 +103,6 @@
             appState.HideLoader();
         }
     }
+
+    private void GoToOrderDetails(int orderId) => navigationManager.NavigateTo($"orders/{orderId}");
 }

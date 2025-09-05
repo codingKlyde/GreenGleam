@@ -5,8 +5,8 @@
 @page "/register"
 
 
-<div class="flex min-h-screen items-center justify-center bg-gray-50">
-    <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
+<div class="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div class="mx-auto w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
         <div class="mb-6 text-center">
             <i class="fa-solid fa-user-plus text-4xl text-blue-500"></i>
             <h1 class="mt-2 text-xl font-bold text-gray-800">Create Account</h1>
@@ -42,7 +42,7 @@
             </div>
         </EditForm>
 
-        <p class="mt-6 text-center text-sm text-gray-600">
+        <p class="mt-4 text-center text-sm text-gray-600">
             Already have an account?
             <NavLink href="/login" class="font-medium text-blue-500 hover:underline">Login</NavLink>
         </p>
@@ -62,11 +62,11 @@
             var result = await authApi.RegisterAsync(registerDto);
             if (!result.IsSuccess)
             {
-                await MauiInterop.AlertAsync("Registration Failed", result.Error);
+                await MauiInterop.AlertAsync("Registration failed", result.Error);
                 return;
             }
 
-            await MauiInterop.AlertAsync("User registrated successfully");
+            await MauiInterop.AlertAsync("Account registered successfully");
 
             navigationManager.NavigateTo("/login", replace: true);
         }

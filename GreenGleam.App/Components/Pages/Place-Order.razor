@@ -28,9 +28,9 @@
         </select>
     </div>
 
-    <NavLink href="/manage-addresses" class="mt-5 text-sm font-medium text-blue-600 hover:underline">
+  @*<NavLink href="/manage-addresses" class="mt-5 text-sm font-medium text-blue-600 hover:underline">
         Manage Addresses
-    </NavLink>
+    </NavLink> *@
     <button @onclick="PlaceOrderAsync" class="w-full rounded-lg bg-green-600 py-3 text-lg font-medium text-white shadow-md transition hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:outline-none disabled:opacity-50" disabled="@(selectedAddressId == 0)">
         Proceed to Checkout
     </button>

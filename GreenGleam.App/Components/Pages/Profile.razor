@@ -8,7 +8,24 @@
 </SectionContent>
 
 
-@if (authService.IsLoggedIn)
+@if (isLoading)
+{
+    <div class="mt-10 flex flex-col items-center justify-center space-y-4 text-center">
+        <i class="fa-solid fa-spinner fa-spin text-6xl text-blue-500"></i>
+        <p class="text-lg font-semibold text-gray-700">Loading your orders...</p>
+    </div>
+}
+else if (!authService.IsLoggedIn)
+{
+    <div class="mt-10 flex flex-col items-center justify-center space-y-4 text-center">
+        <i class="fa-solid fa-user-lock text-6xl text-gray-400"></i>
+        <p class="text-lg font-semibold text-gray-700">Login to view your profile</p>
+        <NavLink href="/login" class="rounded-lg bg-blue-500 px-6 py-2 text-sm font-medium text-white shadow transition hover:bg-blue-600">
+            Go to Login
+        </NavLink>
+    </div>
+}
+else 
 {
     <div class="flex flex-col items-center gap-4">
         <!-- Profile Header -->
@@ -65,14 +82,22 @@
     </div>
 }
 
+
 @code {
+    private bool isLoading = true;
+
     protected override async Task OnInitializedAsync()
     {
         if (!authService.IsLoggedIn)
         {
-            await MauiInterop.AlertAsync("You are not logged in to view this page", "Login required");
-            authService.RedirectFromLogin = "/profile";
-            navigationManager.NavigateTo("/login", replace: true);
+            if (await MauiInterop.ConfirmAsync("You need to be logged in to view your profile. Do you want to login now?", "Login Required"))
+            {
+                authService.RedirectFromLogin = "/profile";
+                navigationManager.NavigateTo("/login", replace: true);
+                return;
+            }
+            isLoading = false;
+            return;
         }
     }
 

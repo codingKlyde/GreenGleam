@@ -8,14 +8,7 @@
 </SectionContent>
 
 
-@if (isLoading)
-{
-    <div class="mt-10 flex flex-col items-center justify-center space-y-4 text-center">
-        <i class="fa-solid fa-spinner fa-spin text-6xl text-blue-500"></i>
-        <p class="text-lg font-semibold text-gray-700">Loading your orders...</p>
-    </div>
-}
-else if (!authService.IsLoggedIn)
+@if (!authService.IsLoggedIn)
 {
     <div class="mt-10 flex flex-col items-center justify-center space-y-4 text-center">
         <i class="fa-solid fa-user-lock text-6xl text-gray-400"></i>
@@ -84,8 +77,6 @@ else
 
 
 @code {
-    private bool isLoading = true;
-
     protected override async Task OnInitializedAsync()
     {
         if (!authService.IsLoggedIn)
@@ -96,7 +87,6 @@ else
                 navigationManager.NavigateTo("/login", replace: true);
                 return;
             }
-            isLoading = false;
             return;
         }
     }

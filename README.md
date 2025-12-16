@@ -37,14 +37,13 @@ The app also supports persistent cart storage, secure authentication, and a clea
 
 ### **Backend / API**
 - **ASP.NET Core Web API**  
-- **Entity Framework Core** – ORM & database migrations  
-- **SQL Server** – Main database  
+- **Entity Framework Core** 
+- **SQL Server** 
 
 ### **Shared**
-- **DTOs (Data Transfer Objects)** – for structured data exchange between App ↔ API  
+- **DTOs (Data Transfer Objects)** 
 
 ### **Authentication**
 - **JWT (JSON Web Tokens)** – Secure login & authorization  
-- Claims used: `Id`, `Name`, `Email`  
 
 ---
